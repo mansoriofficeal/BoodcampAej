@@ -1,0 +1,118 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "The Meal DB API Documentation"
+  description: "Documentation for The Meal DB API"
+paths:
+  /search:
+    get:
+      summary: "Search for meals"
+      description: "This endpoint allows you to search for meals by providing a keyword."
+      parameters:
+        - name: keyword
+          in: query
+          required: true 
+          schema:
+            type: string
+          description: "The keyword to search for meals."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meals:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        strMeal:
+                          type: string
+                          description: "The name of the meal."
+                        strMealThumb:
+                          type: string
+                          description: "URL of the meal's image."
+                        strSource:
+                          type: string
+                          description: "URL to the source of the meal."
+
+        '400':
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: "Error message when the request is invalid."
+
+  /food-search:
+    get:
+      summary: "Search for food items"
+      description: "This endpoint allows you to search for food items by providing a query."
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+          description: "The keyword to search for food items."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: "Name of the food item."
+
+  /authentication:
+    post:
+      summary: "Authenticate a user"
+      description: "This endpoint is used to authenticate a user and generate an authentication token."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: "User's username"
+                password:
+                  type: string
+                  description: "User's password"
+      responses:
+        '200':
+          description: "Authentication successful. Returns an authentication token."
+        '401':
+          description: "Unauthorized. Invalid credentials provided."
+        '400':
+          description: "Bad Request. Request body is missing or malformed."
+
+components:
+  schemas:
+    Authentication:
+      type: object
+      properties:
+        userId:
+          type: integer
+          description: "User's ID"
+        email:
+          type: string
+          description: "User's email address"
+        name:
+          type: string
+          description: "User's name"
+        username:
+          type: string
+          description: "User's username"
